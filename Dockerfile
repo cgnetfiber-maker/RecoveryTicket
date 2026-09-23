@@ -1,25 +1,22 @@
 FROM python:3.10-slim
 
-# Install system dependencies needed for Playwright browsers
-RUN apt-get update && apt-get install -y \
-    wget \
-    gnupg \
-    ca-certificates \
-    curl \
-    && rm -rf /var/lib/apt/lists/*
-
 WORKDIR /app
 
-# Copy requirements and install python packages
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    curl \
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Python packages
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Install Playwright browser binaries and system dependencies
-RUN playwright install chromium --with-deps
+# Install only Chromium binary without full bundle
+RUN python -m playwright install chromium
 
-# Copy application files
+# Copy app files
 COPY . .
 
-# Expose port and run app
 EXPOSE 7860
 CMD ["python", "app.py"]
