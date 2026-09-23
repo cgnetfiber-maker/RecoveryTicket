@@ -1,6 +1,7 @@
 import gradio as gr
 from KiranTicketScrapper import run_scraper
-
+# In app.py
+from KiranTicketScrapper import scrape_tickets  # Use your actual function name here
 def start_scraping():
     try:
         run_scraper()
