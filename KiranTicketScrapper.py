@@ -237,3 +237,11 @@ def main():
 
 if __name__ == "__main__":
     main()
+# At the bottom of KiranTicketScrapper.py
+
+def run_scraper():
+    """Main execution entry point called by app.py."""
+    # Call your primary scraping function here
+    # e.g., start_scraping_process() or main()
+    print("Starting Playwright Scraping Task...")
+    # your scraping logic execution
