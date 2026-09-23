@@ -1,21 +1,34 @@
 FROM python:3.10-slim
 
-WORKDIR /app
-
-# Install system dependencies
+# Install system dependencies required for headless Chromium
 RUN apt-get update && apt-get install -y \
+    wget \
     curl \
+    gnupg \
     ca-certificates \
+    libglib2.0-0 \
+    libnss3 \
+    libatk1.0-0 \
+    libatk-bridge2.0-0 \
+    libcups2 \
+    libdrm2 \
+    libxkbcommon0 \
+    libxcomposite1 \
+    libxdamage1 \
+    libxrandr2 \
+    libgbm1 \
+    libasound2 \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Python packages
+WORKDIR /app
+
+# Install Python requirements
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Install only Chromium binary without full bundle
-RUN python -m playwright install chromium
+# Install Chromium browser binary and system deps
+RUN python -m playwright install chromium --with-deps
 
-# Copy app files
 COPY . .
 
 EXPOSE 7860
